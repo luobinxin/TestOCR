@@ -52,8 +52,9 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.com.startai.helper.HPermissionHelper;
-import cn.com.startai.helper.TAndL;
+import cn.com.startai.common.CommonSDKInterface;
+import cn.com.startai.common.utils.TAndL;
+import cn.com.startai.common.utils.permission.CPermissionHelper;
 
 import static org.apache.commons.codec.binary.Base64.encodeBase64;
 
@@ -92,6 +93,8 @@ public class Main2Activity extends AppCompatActivity implements TakePhoto.TakeRe
         setContentView(R.layout.activity_main2);
         ButterKnife.bind(this);
 
+        CommonSDKInterface.getInstance().init(getApplication());
+
         alertDialog = new AlertDialog.Builder(this);
         progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
         progressDialog.setMessage("正在加载资源文件");
@@ -107,11 +110,11 @@ public class Main2Activity extends AppCompatActivity implements TakePhoto.TakeRe
 
     private void initOcrData() {
         if (FileUtils.isFileExists(CN_FILE) && FileUtils.isFileExists(EN_FILE)) {
-            TAndL.TL(getApplicationContext(), "资源文件加载完成");
+            TAndL.TL( "资源文件加载完成");
             dismissProgressDialog();
         } else {
 
-            HPermissionHelper.requestStorage(new HPermissionHelper.OnPermissionGrantedListener() {
+            CPermissionHelper.requestStorage(new CPermissionHelper .OnPermissionGrantedListener() {
                 @Override
                 public void onPermissionGranted() {
                     ThreadUtils.executeByIo(new ThreadUtils.Task<Object>() {
@@ -127,7 +130,7 @@ public class Main2Activity extends AppCompatActivity implements TakePhoto.TakeRe
                         @Override
                         public void onSuccess(@Nullable Object result) {
                             dismissProgressDialog();
-                            TAndL.TL(getApplicationContext(), "资源文件加载完成");
+                            TAndL.TL(  "资源文件加载完成");
                         }
 
                         @Override
@@ -145,10 +148,10 @@ public class Main2Activity extends AppCompatActivity implements TakePhoto.TakeRe
                         }
                     });
                 }
-            }, new HPermissionHelper.OnPermissionDeniedListener() {
+            }, new CPermissionHelper.OnPermissionDeniedListener() {
                 @Override
                 public void onPermissionDenied() {
-                    TAndL.TL(getApplicationContext(), "请授权");
+                    TAndL.TL( "请授权");
                 }
             });
 
@@ -312,13 +315,13 @@ public class Main2Activity extends AppCompatActivity implements TakePhoto.TakeRe
             @Override
             public void onCancel() {
                 dismissProgressDialog();
-                TAndL.TL(getApplicationContext(), "onCancel");
+                TAndL.TL(  "onCancel");
             }
 
             @Override
             public void onFail(Throwable t) {
                 dismissProgressDialog();
-                TAndL.TL(getApplicationContext(), "onFail");
+                TAndL.TL(  "onFail");
             }
         });
 
@@ -432,7 +435,7 @@ public class Main2Activity extends AppCompatActivity implements TakePhoto.TakeRe
     @Override
     public void takeSuccess(TResult result) {
         String originalPath = result.getImage().getOriginalPath();
-        TAndL.TL(getApplicationContext(), "takeSuccess " + originalPath);
+        TAndL.TL( "takeSuccess " + originalPath);
 
         alertProgress("正在识别。。。");
 
@@ -446,12 +449,12 @@ public class Main2Activity extends AppCompatActivity implements TakePhoto.TakeRe
 
     @Override
     public void takeFail(TResult result, String msg) {
-        TAndL.TL(getApplicationContext(), "takeFail ");
+        TAndL.TL( "takeFail ");
     }
 
     @Override
     public void takeCancel() {
-        TAndL.TL(getApplicationContext(), "takeCancel ");
+        TAndL.TL(  "takeCancel ");
     }
 
 

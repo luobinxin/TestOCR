@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "cn.com.startai.testocr"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -29,14 +29,16 @@ dependencies {
 
 
     //butterknife
-    implementation 'com.jakewharton:butterknife:8.2.1'
+    api 'com.jakewharton:butterknife:8.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.2.1'
 
     api 'org.xutils:xutils:3.5.1'
     api 'com.alibaba:fastjson:1.2.56'
     api 'org.eclipse.ecf:org.apache.commons.codec:1.9.0.v20170208-1614'
     api 'com.blankj:utilcode:1.22.1'
-    api 'cn.com.startai:helper:1.0.02'
+
+    // startai app 开发基础库
+    api 'cn.com.startai:common:1.0.03'
 
     //图片选择裁剪库
     api 'org.devio.takephoto:takephoto_library:4.1.0'
